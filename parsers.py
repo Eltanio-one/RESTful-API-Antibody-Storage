@@ -1,0 +1,25 @@
+from flask_restful import reqparse
+
+post_parser = reqparse.RequestParser()
+post_parser.add_argument("marker", type=str, help="Marker that antibody tagets", required=True)
+post_parser.add_argument("fluorophore", type=str, help="Fluorophore conjugated to antibody", required=True)
+post_parser.add_argument("supplier", type=str, help="Antibody supplier", required=True)
+post_parser.add_argument("code", type=str, help="Product code for antibody", required=True)
+post_parser.add_argument("price", type=int, help="Price listed for antibody")
+post_parser.add_argument("date", type=str, help="Order date", required=True)
+
+put_parser = reqparse.RequestParser()
+put_parser.add_argument("marker", type=str, help="Marker that antibody tagets", required=True)
+put_parser.add_argument("fluorophore", type=str, help="Fluorophore conjugated to antibody", required=True)
+put_parser.add_argument("supplier", type=str, help="Antibody supplier", required=True)
+put_parser.add_argument("code", type=str, help="Product code for antibody", required=True)
+put_parser.add_argument("price", type=int, help="Price listed for antibody")
+put_parser.add_argument("date", type=str, help="Order date", required=True)
+
+patch_parser = reqparse.RequestParser()
+patch_parser.add_argument("marker", type=str, help="Marker that antibody tagets")
+patch_parser.add_argument("fluorophore", type=str, help="Fluorophore conjugated to antibody")
+patch_parser.add_argument("supplier", type=str, help="Antibody supplier")
+patch_parser.add_argument("code", type=str, help="Product code for antibody")
+patch_parser.add_argument("price", type=int, help="Price listed for antibody")
+patch_parser.add_argument("date", type=str, help="Order date")
