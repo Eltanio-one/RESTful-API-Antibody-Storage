@@ -29,6 +29,9 @@ class AntibodyModel(db.Model):
     def __repr__(self):
         return f"ID: {self.id},\n Marker: {self.marker},\n Fluorophore: {self.fluorophore},\n Supplier: {self.supplier},\n Product Code: {self.code},\n Price: {self.price},\n Order Date: {self.date}"
 
+# create database table, should only be run once to initialise then commented out
+# db.create_all()
+
 # define resource_fields that will be used by marshal_with() to format our response before returning
 resource_fields = {
     'id': fields.Integer,
