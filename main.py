@@ -11,10 +11,11 @@ app = Flask(__name__)
 api = Api(app)
 
 # configure SQLAlchemy database to create a db in the local directory
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
 
 # create db variable linked to the current app
 db = SQLAlchemy(app)
+
 
 # create antibody model class for the db, including all attributes that can be processed using CRUD
 class AntibodyModel(db.Model):
@@ -29,21 +30,25 @@ class AntibodyModel(db.Model):
     def __repr__(self):
         return f"ID: {self.id},\n Marker: {self.marker},\n Fluorophore: {self.fluorophore},\n Supplier: {self.supplier},\n Product Code: {self.code},\n Price: {self.price},\n Order Date: {self.date}"
 
+
+# create database table, should only be run once to initialise then commented out
+# db.create_all()
+
 # define resource_fields that will be used by marshal_with() to format our response before returning
 resource_fields = {
-    'id': fields.Integer,
-    'marker': fields.String,
-    'fluorophore': fields.String,
-    'supplier': fields.String,
-    'code': fields.String,
-    'price': fields.Integer,
-    'date': fields.String
+    "id": fields.Integer,
+    "marker": fields.String,
+    "fluorophore": fields.String,
+    "supplier": fields.String,
+    "code": fields.String,
+    "price": fields.Integer,
+    "date": fields.String,
 }
+
 
 # create Antibody class, inheriting Resource from flask_restful which contains methods for each HTTP method
 # within the class I have defined my own functions to ovewrite the default
 class Antibody(Resource):
-
     # get function to read
     @marshal_with(resource_fields)
     def get(self, antibody_id):
@@ -51,7 +56,7 @@ class Antibody(Resource):
         if not result:
             abort(404, message="Antibody not found")
         return result, 200
-    
+
     # post function to add new entries to the db
     @marshal_with(resource_fields)
     def post(self, antibody_id):
@@ -59,7 +64,15 @@ class Antibody(Resource):
         result = AntibodyModel.query.filter_by(id=antibody_id).first()
         if result:
             abort(409, message="Antibody already exists")
-        antibody = AntibodyModel(id=antibody_id, marker=args['marker'], fluorophore=args['fluorophore'], supplier=args['supplier'], code=args['code'], price=args['price'], date=args['date'])
+        antibody = AntibodyModel(
+            id=antibody_id,
+            marker=args["marker"],
+            fluorophore=args["fluorophore"],
+            supplier=args["supplier"],
+            code=args["code"],
+            price=args["price"],
+            date=args["date"],
+        )
         db.session.add(antibody)
         db.session.commit()
         return result, 201
@@ -71,7 +84,21 @@ class Antibody(Resource):
         result = AntibodyModel.query.filter_by(id=antibody_id).first()
         if not result:
             abort(404, message="Antibody not found, cannot replace, please try post")
-        result.marker, result.fluorophore, result.supplier, result.code, result.price, result.date = args['marker'], args['fluorophore'], args['supplier'], args['code'], args['price'], args['date']
+        (
+            result.marker,
+            result.fluorophore,
+            result.supplier,
+            result.code,
+            result.price,
+            result.date,
+        ) = (
+            args["marker"],
+            args["fluorophore"],
+            args["supplier"],
+            args["code"],
+            args["price"],
+            args["date"],
+        )
         db.session.commit()
         return result, 204
 
@@ -82,18 +109,18 @@ class Antibody(Resource):
         result = AntibodyModel.query.filter_by(id=antibody_id).first()
         if not result:
             abort(404, message="Antibody not found, cannot replace, please try post")
-        if args['marker']:
-            result.marker = args['marker']
-        if args['fluorophore']:
-            result.fluorophore = args['fluorophore']
-        if args['supplier']:
-            result.supplier = args['supplier']
-        if args['code']:
-            result.code = args['code']
-        if args['price']:
-            result.price = args['price']
-        if args['date']:
-            result.date = args['date']
+        if args["marker"]:
+            result.marker = args["marker"]
+        if args["fluorophore"]:
+            result.fluorophore = args["fluorophore"]
+        if args["supplier"]:
+            result.supplier = args["supplier"]
+        if args["code"]:
+            result.code = args["code"]
+        if args["price"]:
+            result.price = args["price"]
+        if args["date"]:
+            result.date = args["date"]
         db.session.commit()
         return result, 204
 
@@ -106,7 +133,8 @@ class Antibody(Resource):
         # AntibodyModel.query.filterby(id=antibody_id).first().delete()
         db.session.delete(result)
         db.session.commit()
-        return '', 204
+        return "", 204
+
 
 # adds a resource to the API, here I've included our resource Antibody, and the url that would be generated for each data entry
 api.add_resource(Antibody, "/antibody/<int:antibody_id>")
