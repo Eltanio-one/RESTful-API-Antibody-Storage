@@ -12,7 +12,8 @@ api = Api(app)
 
 # configure SQLAlchemy database to create a db in the local directory
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///database.db"
-
+# Set track mods to false to avoid FSADeprectionWarning during testing
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 # create db variable linked to the current app
 db = SQLAlchemy(app)
 
