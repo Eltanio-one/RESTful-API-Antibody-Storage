@@ -6,7 +6,7 @@ Below I have detailed the different files that are included in this repo, and ex
 # parsers.py
 This python file contains reqparse RequestParsers from the flask_restful library that have the relevant arguments from the Antibody class added to each. I have created three different parsers for POST, PUT and PATCH HTTP requests, as each of these have different necessities regarding the requirements of fields when sending the relevant request. These are then imported into main.py to be used when requesting to parse the arguments provided in test.py (this can also be done through the command line).
 
-# test.py
+# practice.py
 This python file contains code that tests each of the HTTP request functions that the API allows; GET, POST, PUT, PATCH and DELETE. I have also included datetime from the datetime library to generate the current date so that when users send either a POST, PUT or PATCH request, the date is automatically generated to minimise error and enable accurate tracking of order dates.
 
 # requirements.txt
