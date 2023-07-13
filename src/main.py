@@ -1,8 +1,14 @@
 # import libraries
 from flask import Flask
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Api, Resource, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
-from parsers import *
+import os
+import sys
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+
+from config.parsers import *
 
 # initialise flask app
 app = Flask(__name__)
